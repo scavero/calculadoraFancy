@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AETHER es una calculadora web ultramoderna y graficadora interactiva de funciones matemáticas. Ofrece modos clásica, científica y de graficación en tiempo real con una interfaz glassmorphism de estética premium.">
+    <title>AETHER | Calculadora Ultramoderna y Graficadora</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="background-effects">
+        <div class="glow-orb orb-1"></div>
+        <div class="glow-orb orb-2"></div>
+        <div class="glow-orb orb-3"></div>
+    </div>
+
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar glass-panel">
+            <div class="logo">
+                <span class="logo-icon">▲</span>
+                <span class="logo-text">AETHER</span>
+            </div>
+            <nav class="nav-menu">
+                <button class="nav-btn active" data-mode="classic" id="btn-mode-classic">
+                    <svg class="nav-icon" viewBox="0 0 24 24">
+                        <rect x="3" y="3" width="18" height="18" rx="2" fill="none" stroke="currentColor" stroke-width="2"/>
+                        <line x1="9" y1="9" x2="15" y2="9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        <line x1="9" y1="13" x2="15" y2="13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        <line x1="9" y1="17" x2="15" y2="17" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    <span>Clásica</span>
+                </button>
+                <button class="nav-btn" data-mode="scientific" id="btn-mode-scientific">
+                    <svg class="nav-icon" viewBox="0 0 24 24">
+                        <rect x="3" y="3" width="18" height="18" rx="2" fill="none" stroke="currentColor" stroke-width="2"/>
+                        <path d="M7 7h10M7 11h10M7 15h4M16 15l2 2m0-2l-2 2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    <span>Científica</span>
+                </button>
+                <button class="nav-btn" data-mode="graphing" id="btn-mode-graphing">
+                    <svg class="nav-icon" viewBox="0 0 24 24">
+                        <rect x="3" y="3" width="18" height="18" rx="2" fill="none" stroke="currentColor" stroke-width="2"/>
+                        <path d="M7 17l4-6 3 4 3-8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>Gráficos</span>
+                </button>
+            </nav>
+            <div class="sidebar-footer">
+                <button class="icon-btn" id="btn-toggle-history" title="Historial">
+                    <svg class="nav-icon" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/>
+                        <path d="M12 6v6l4 2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </button>
+                <span class="version-tag">v1.0.0</span>
+            </div>
+        </aside>
+
+        <!-- Main Workspace -->
+        <main class="main-content">
+            <!-- Mode Header -->
+            <header class="workspace-header">
+                <h1 id="current-mode-title">Calculadora Clásica</h1>
+                <div class="header-actions">
+                    <button class="theme-badge">SYSTEM ACTIVE</button>
+                </div>
+            </header>
+
+            <!-- Grid container for Calculator / Grapher panels -->
+            <div class="workspace-body">
+                
+                <!-- CALCULATOR MODE PANEL -->
+                <div id="calculator-panel" class="workspace-panel active">
+                    <div class="calculator-layout">
+                        <!-- Screen Display -->
+                        <div class="display-container glass-panel">
+                            <div class="formula-line" id="formula-display"></div>
+                            <div class="result-line" id="result-display">0</div>
+                        </div>
+
+                        <!-- Keypads Wrapper -->
+                        <div class="keypad-wrapper">
+                            <!-- Scientific Keys Extension (Hidden in Classic, Revealed in Scientific) -->
+                            <div class="scientific-keys" id="scientific-keys">
+                                <button class="btn btn-sci" data-action="sin">sin</button>
+                                <button class="btn btn-sci" data-action="cos">cos</button>
+                                <button class="btn btn-sci" data-action="tan">tan</button>
+                                <button class="btn btn-sci" data-action="deg-rad" id="btn-deg-rad">DEG</button>
+                                
+                                <button class="btn btn-sci" data-action="asin">sin⁻¹</button>
+                                <button class="btn btn-sci" data-action="acos">cos⁻¹</button>
+                                <button class="btn btn-sci" data-action="atan">tan⁻¹</button>
+                                <button class="btn btn-sci" data-action="log">log</button>
+
+                                <button class="btn btn-sci" data-action="ln">ln</button>
+                                <button class="btn btn-sci" data-action="sqrt">√</button>
+                                <button class="btn btn-sci" data-action="pow">xʸ</button>
+                                <button class="btn btn-sci" data-action="pi">π</button>
+
+                                <button class="btn btn-sci" data-action="e">e</button>
+                                <button class="btn btn-sci" data-action="fact">x!</button>
+                                <button class="btn btn-sci" data-action="abs">abs</button>
+                                <button class="btn btn-sci" data-action="exp">exp</button>
+                                <button class="btn btn-sci" data-action="i">i</button>
+                                <button class="btn btn-sci" data-action="conj">conj</button>
+                                <button class="btn btn-sci" data-action="arg">arg</button>
+                                <button class="btn btn-sci" data-action="real">Re</button>
+                            </div>
+
+                            <!-- Classic Keys (Always Visible) -->
+                            <div class="classic-keys">
+                                <button class="btn btn-action" data-action="clear-all">AC</button>
+                                <button class="btn btn-action" data-action="backspace">
+                                    <svg class="key-icon" viewBox="0 0 24 24">
+                                        <path d="M21 4H8L2 12l6 8h13a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                                        <line x1="18" y1="9" x2="12" y2="15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                        <line x1="12" y1="9" x2="18" y2="15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                    </svg>
+                                </button>
+                                <button class="btn btn-op" data-action="mod">%</button>
+                                <button class="btn btn-op" data-action="div">÷</button>
+
+                                <button class="btn btn-num" data-val="7">7</button>
+                                <button class="btn btn-num" data-val="8">8</button>
+                                <button class="btn btn-num" data-val="9">9</button>
+                                <button class="btn btn-op" data-action="mul">×</button>
+
+                                <button class="btn btn-num" data-val="4">4</button>
+                                <button class="btn btn-num" data-val="5">5</button>
+                                <button class="btn btn-num" data-val="6">6</button>
+                                <button class="btn btn-op" data-action="sub">-</button>
+
+                                <button class="btn btn-num" data-val="1">1</button>
+                                <button class="btn btn-num" data-val="2">2</button>
+                                <button class="btn btn-num" data-val="3">3</button>
+                                <button class="btn btn-op" data-action="add">+</button>
+
+                                <button class="btn btn-num" data-val="0">0</button>
+                                <button class="btn btn-num" data-val=".">.</button>
+                                <button class="btn btn-op" data-action="parenthesis">( )</button>
+                                <button class="btn btn-equal" id="btn-equals">=</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- GRAPHING MODE PANEL -->
+                <div id="graphing-panel" class="workspace-panel">
+                    <div class="graphing-layout">
+                        <!-- Function Input Sidebar -->
+                        <div class="graphing-sidebar glass-panel">
+                            <div class="panel-section-title">Funciones Matematícas</div>
+                            
+                            <!-- Input list container -->
+                            <div class="functions-list" id="functions-container">
+                                <!-- Function inputs will be generated dynamically by JS -->
+                            </div>
+
+                            <button class="add-func-btn" id="btn-add-function">
+                                <span>+ Añadir Función</span>
+                            </button>
+
+                            <div class="graph-help glass-panel">
+                                <h3>Tipos de Entrada</h3>
+                                <p>Puedes usar variables como <code>x</code>.</p>
+                                <p>Ejemplos: <code>x^2</code>, <code>sin(x)</code>, <code>cos(x) * x</code>, <code>sqrt(abs(x))</code>, <code>3 * log(x)</code>.</p>
+                            </div>
+                        </div>
+
+                        <!-- Graph Canvas Container -->
+                        <div class="graph-canvas-container glass-panel">
+                            <canvas id="graph-canvas"></canvas>
+                            
+                            <!-- Floating Coordinates Indicator -->
+                            <div class="graph-coords" id="graph-coords">x: 0.00, y: 0.00</div>
+                            
+                            <!-- Canvas Action Buttons Overlay -->
+                            <div class="canvas-controls">
+                                <button class="canvas-control-btn" id="btn-zoom-in" title="Acercar">
+                                    <svg viewBox="0 0 24 24" width="20" height="20"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
+                                </button>
+                                <button class="canvas-control-btn" id="btn-zoom-out" title="Alejar">
+                                    <svg viewBox="0 0 24 24" width="20" height="20"><path d="M5 12h14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
+                                </button>
+                                <button class="canvas-control-btn" id="btn-zoom-home" title="Centrar">
+                                    <svg viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="2" fill="currentColor"/></svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+
+        <!-- Slide-out History Panel -->
+        <aside class="history-panel glass-panel" id="history-panel">
+            <div class="history-header">
+                <h2>Historial</h2>
+                <button class="close-btn" id="btn-close-history">&times;</button>
+            </div>
+            <div class="history-list" id="history-list-container">
+                <!-- History elements generated dynamically -->
+                <div class="history-empty">No hay cálculos recientes</div>
+            </div>
+            <button class="clear-history-btn" id="btn-clear-history">Limpiar Historial</button>
+        </aside>
+    </div>
+
+    <!-- Scripts -->
+    <script src="parser.js"></script>
+    <script src="grapher.js"></script>
+    <script src="calculator.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
