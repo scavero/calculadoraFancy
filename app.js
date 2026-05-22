@@ -192,6 +192,15 @@ document.addEventListener('DOMContentLoaded', () => {
        ========================================================================== */
     let functionCounter = 0;
 
+    function updateFunctionLabels() {
+        const rows = functionsContainer.querySelectorAll('.function-row');
+        const isComplexPlane = grapher.graphMode === 'domain-coloring';
+        const suffix = isComplexPlane ? '(z)' : '(x)';
+        rows.forEach((r, idx) => {
+            r.querySelector('.function-title').textContent = `f${idx + 1}${suffix}`;
+        });
+    }
+
     /**
      * Appends a new mathematical function row inside the left side-panel
      */
@@ -206,7 +215,7 @@ document.addEventListener('DOMContentLoaded', () => {
         row.innerHTML = `
             <div class="function-header">
                 <div class="color-indicator" style="color: ${color}; background-color: ${color}"></div>
-                <span class="function-title">f${grapher.functions.length + 1}(x)</span>
+                <span class="function-title"></span>
                 <button class="delete-func-btn" title="Eliminar">
                     <svg viewBox="0 0 24 24" width="16" height="16"><line x1="18" y1="6" x2="6" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="6" y1="6" x2="18" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
                 </button>
@@ -234,6 +243,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         grapher.functions.push(fnObj);
+        updateFunctionLabels();
 
         // Show/hide error helper
         function updateFunctionValidation() {
@@ -283,11 +293,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 grapher.functions = grapher.functions.filter(f => f.id !== id);
                 row.remove();
                 
-                // Re-label functions in UI (e.g. f1, f2, f3) for clarity
-                const rows = functionsContainer.querySelectorAll('.function-row');
-                rows.forEach((r, idx) => {
-                    r.querySelector('.function-title').textContent = `f${idx + 1}(x)`;
-                });
+                updateFunctionLabels();
 
                 grapher.requestRedraw();
             }, 150);
@@ -331,5 +337,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     btnZoomHome.addEventListener('click', () => {
         grapher.resetView();
+    });
+
+    // Graph Mode Button Click Bindings
+    const graphModeButtons = document.querySelectorAll('.graph-mode-btn');
+    graphModeButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // Toggle active class in UI
+            graphModeButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            // Update grapher state and redraw
+            const selectedMode = btn.getAttribute('data-graph-mode');
+            grapher.graphMode = selectedMode;
+            updateFunctionLabels();
+            grapher.updateCoordsDisplay();
+            grapher.requestRedraw();
+        });
     });
 });

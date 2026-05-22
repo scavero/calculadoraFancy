@@ -297,7 +297,7 @@ const MathParser = (() => {
                 }
                 
                 const lowerWord = wordStr.toLowerCase();
-                if (lowerWord === 'x') {
+                if (lowerWord === 'x' || lowerWord === 'z') {
                     tokens.push({ type: 'VARIABLE', value: 'x' });
                 } else if (CONSTANTS[lowerWord] !== undefined) {
                     tokens.push({ type: 'CONSTANT', value: lowerWord });
@@ -418,7 +418,11 @@ const MathParser = (() => {
             } else if (token.type === 'CONSTANT') {
                 stack.push(CONSTANTS[token.value]);
             } else if (token.type === 'VARIABLE') {
-                stack.push(new Complex(xVal, 0));
+                if (xVal instanceof Complex) {
+                    stack.push(xVal);
+                } else {
+                    stack.push(new Complex(xVal, 0));
+                }
             } else if (token.type === 'FUNCTION') {
                 if (stack.length < 1) {
                     throw new Error(`Parámetros insuficientes para la función "${token.value}"`);
